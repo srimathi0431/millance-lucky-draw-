@@ -1,13 +1,25 @@
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import UserLayout from '../../layouts/UserLayout';
 import { 
   User, Mail, Phone, MapPin, Users, Building2, Calendar, 
-  Shield, Edit, IdCard, CheckCircle 
+  Shield, Edit, IdCard, CheckCircle, Camera, Upload, X
 } from 'lucide-react';
 
 const UserProfile = () => {
   const navigate = useNavigate();
+  const [showImageModal, setShowImageModal] = useState(false);
+  const [tempImage, setTempImage] = useState(null);
+  const [savedProfileImage, setSavedProfileImage] = useState(null);
+  
+  // Load saved profile image from localStorage on mount
+  useEffect(() => {
+    const saved = localStorage.getItem('userProfileImage');
+    if (saved) {
+      setSavedProfileImage(saved);
+    }
+  }, []);
   
   // User Profile Data (should be synced with global state/context)
   const profileData = {
@@ -30,6 +42,76 @@ const UserProfile = () => {
   const handleChangePassword = () => {
     navigate('/user/profile/change-password');
   };
+
+  // Handle profile image selection
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      // Validate file type
+      if (!file.type.startsWith('image/')) {
+        alert('Please select an image file');
+        return;
+      }
+      
+      // Validate file size (max 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        alert('Image size should be less than 5MB');
+        return;
+      }
+      
+      // Create preview URL
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setTempImage(reader.result);
+        setShowImageModal(true);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  // Handle image upload/save
+  const handleSaveImage = () => {
+    if (!tempImage) return;
+    
+    // Save to localStorage
+    localStorage.setItem('userProfileImage', tempImage);
+    setSavedProfileImage(tempImage);
+    
+    // TODO: Implement API call to upload image
+    // const formData = new FormData();
+    // formData.append('profileImage', profileImage);
+    // await uploadProfileImage(formData);
+    
+    setShowImageModal(false);
+    setTempImage(null);
+  };
+
+  // Remove profile picture
+  const handleRemoveImage = () => {
+    localStorage.removeItem('userProfileImage');
+    setSavedProfileImage(null);
+    setTempImage(null);
+    setShowImageModal(false);
+  };
+
+  // Close modal without saving
+  const handleCloseModal = () => {
+    setShowImageModal(false);
+    setTempImage(null);
+  };
+
+  // Prevent body scroll when modal is open
+  useEffect(() => {
+    if (showImageModal) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [showImageModal]);
 
   // Get status color
   const getStatusClass = (status) => {
@@ -57,9 +139,28 @@ const UserProfile = () => {
           animate={{ opacity: 1, y: 0 }}
           className="user-profile-header-card"
         >
-          <div className="user-profile-avatar">
-            <User size={32} />
+          <div className="user-profile-avatar-wrapper">
+            <div className="user-profile-avatar">
+              {savedProfileImage ? (
+                <img src={savedProfileImage} alt="Profile" className="user-profile-avatar-img" />
+              ) : (
+                <User size={32} />
+              )}
+            </div>
+            
+            {/* Camera Icon - Upload Trigger */}
+            <label htmlFor="profile-image-input" className="user-profile-camera-btn">
+              <Camera size={16} />
+              <input
+                id="profile-image-input"
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+                style={{ display: 'none' }}
+              />
+            </label>
           </div>
+          
           <div className="user-profile-header-info">
             <h1 className="user-profile-name">{profileData.name}</h1>
             <div className="user-profile-meta">
@@ -74,6 +175,66 @@ const UserProfile = () => {
             </div>
           </div>
         </motion.div>
+
+        {/* Image Change Modal */}
+        <AnimatePresence>
+          {showImageModal && (
+            <>
+              {/* Backdrop */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="user-profile-modal-backdrop"
+                onClick={handleCloseModal}
+              />
+              
+              {/* Modal */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ 
+                  opacity: 1, 
+                  scale: 1,
+                  top: '50%',
+                  left: '50%',
+                  x: '-50%',
+                  y: '-50%'
+                }}
+                exit={{ opacity: 0, scale: 0.9 }}
+                className="user-profile-image-modal"
+                style={{
+                  position: 'fixed',
+                  zIndex: 9999
+                }}
+              >
+                <div className="user-profile-modal-header">
+                  <h3>Change Profile Picture</h3>
+                  <button onClick={handleCloseModal} className="user-profile-modal-close">
+                    <X size={20} />
+                  </button>
+                </div>
+                
+                <div className="user-profile-modal-body">
+                  <div className="user-profile-modal-preview">
+                    {tempImage && (
+                      <img src={tempImage} alt="Preview" className="user-profile-modal-img" />
+                    )}
+                  </div>
+                </div>
+                
+                <div className="user-profile-modal-actions">
+                  <button onClick={handleSaveImage} className="user-profile-modal-btn-save">
+                    <Upload size={16} />
+                    <span>Save</span>
+                  </button>
+                  <button onClick={handleCloseModal} className="user-profile-modal-btn-remove">
+                    Cancel
+                  </button>
+                </div>
+              </motion.div>
+            </>
+          )}
+        </AnimatePresence>
 
         {/* Profile Information */}
         <motion.div

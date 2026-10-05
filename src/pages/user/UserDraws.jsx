@@ -11,13 +11,29 @@ import {
 } from 'lucide-react';
 
 const UserDraws = () => {
+  // Eligible Participants - MUST BE DECLARED FIRST (used in state initialization)
+  const eligibleParticipants = [
+    { memberId: '0001', name: 'Rajesh Kumar' },
+    { memberId: '0024', name: 'Priya Sharma' },
+    { memberId: '0047', name: 'Amit Patel' },
+    { memberId: '0089', name: 'Sneha Reddy' },
+    { memberId: '0132', name: 'Vikram Singh' },
+    { memberId: '0156', name: 'Anita Desai' },
+    { memberId: '0178', name: 'Karthik Raj' },
+    { memberId: '0203', name: 'Divya Menon' },
+    { memberId: '0247', name: 'Suresh Babu' },
+    { memberId: '0281', name: 'Lakshmi Iyer' },
+  ];
+
   // Draw States
   const [drawState, setDrawState] = useState('WAITING');
   const [countdown, setCountdown] = useState({ days: 0, hours: 0, minutes: 0, seconds: 15 });
   const [finalCountdown, setFinalCountdown] = useState(5);
   const [currentWinnerIndex, setCurrentWinnerIndex] = useState(0);
   const [displayNumber, setDisplayNumber] = useState('0000');
-  const [selectedWinners, setSelectedWinners] = useState([]); // All winners selected at once
+  const [selectedWinners, setSelectedWinners] = useState([]); // Store winners as they're selected
+  const [currentShuffleWinner, setCurrentShuffleWinner] = useState(null); // Pre-selected winner for current shuffle
+  const [availableParticipants, setAvailableParticipants] = useState([...eligibleParticipants]); // Remaining participants
   const [isSphereStopped, setIsSphereStopped] = useState(false);
   
   const shuffleIntervalRef = useRef(null);
@@ -72,20 +88,6 @@ const UserDraws = () => {
     }
   ];
 
-  // Eligible Participants - expanded list
-  const eligibleParticipants = [
-    { memberId: '0001', name: 'Rajesh Kumar' },
-    { memberId: '0024', name: 'Priya Sharma' },
-    { memberId: '0047', name: 'Amit Patel' },
-    { memberId: '0089', name: 'Sneha Reddy' },
-    { memberId: '0132', name: 'Vikram Singh' },
-    { memberId: '0156', name: 'Anita Desai' },
-    { memberId: '0178', name: 'Karthik Raj' },
-    { memberId: '0203', name: 'Divya Menon' },
-    { memberId: '0247', name: 'Suresh Babu' },
-    { memberId: '0281', name: 'Lakshmi Iyer' },
-  ];
-
   // Past Draws
   const pastDraws = [
     { month: 4, date: '2026-09-10', status: 'Completed', participated: true },
@@ -123,9 +125,8 @@ const UserDraws = () => {
     if (drawState !== 'FINAL_COUNTDOWN') return;
     
     if (finalCountdown === 0) {
-      // SELECT ALL WINNERS AT ONCE - BEFORE SHUFFLE
-      selectAllWinners();
-      setDrawState('SINGLE_SHUFFLE');
+      // Start first winner shuffle
+      startWinnerShuffle(0);
       return;
     }
     
@@ -136,71 +137,85 @@ const UserDraws = () => {
     return () => clearTimeout(timer);
   }, [drawState, finalCountdown]);
 
-  // Select ALL Winners at Once (before shuffle animation)
-  const selectAllWinners = () => {
+  // Start shuffle for a specific winner
+  const startWinnerShuffle = (winnerIndex) => {
     const totalWinners = drawPrizes.reduce((sum, p) => sum + p.winners, 0);
-    const winners = [];
-    const availableParticipants = [...eligibleParticipants];
     
-    for (let i = 0; i < totalWinners; i++) {
-      if (availableParticipants.length === 0) break;
-      
-      // Determine which prize this winner gets
-      let prizeIndex = 0;
-      let count = 0;
-      for (let j = 0; j < drawPrizes.length; j++) {
-        count += drawPrizes[j].winners;
-        if (i < count) {
-          prizeIndex = j;
-          break;
-        }
-      }
-      
-      const currentPrize = drawPrizes[prizeIndex];
-      
-      // Select random participant
-      const randomIndex = Math.floor(Math.random() * availableParticipants.length);
-      const participant = availableParticipants[randomIndex];
-      
-      winners.push({
-        ...participant,
-        prize: currentPrize.name,
-        prizeImage: currentPrize.image
-      });
-      
-      // Remove from available pool
-      availableParticipants.splice(randomIndex, 1);
+    if (winnerIndex >= totalWinners) {
+      // All winners revealed, show final screen
+      setDrawState('FINAL_WINNERS');
+      setTimeout(() => {
+        triggerFinalCelebration();
+        setTimeout(() => {
+          setDrawState('COMPLETED');
+        }, 5000);
+      }, 1000);
+      return;
     }
     
-    setSelectedWinners(winners);
+    // Determine which prize this winner gets
+    let prizeIndex = 0;
+    let count = 0;
+    for (let j = 0; j < drawPrizes.length; j++) {
+      count += drawPrizes[j].winners;
+      if (winnerIndex < count) {
+        prizeIndex = j;
+        break;
+      }
+    }
+    
+    const currentPrize = drawPrizes[prizeIndex];
+    
+    // PRE-SELECT ONE WINNER from available participants
+    const randomIndex = Math.floor(Math.random() * availableParticipants.length);
+    const selectedParticipant = availableParticipants[randomIndex];
+    
+    const winnerData = {
+      ...selectedParticipant,
+      prize: currentPrize.name,
+      prizeImage: currentPrize.image
+    };
+    
+    // Store pre-selected winner for this shuffle
+    setCurrentShuffleWinner(winnerData);
+    
+    // Remove from available pool
+    const updatedAvailable = availableParticipants.filter((_, i) => i !== randomIndex);
+    setAvailableParticipants(updatedAvailable);
+    
+    // Start shuffle animation
+    setCurrentWinnerIndex(winnerIndex);
+    setIsSphereStopped(false);
+    setDrawState('SHUFFLE_ACTIVE');
   };
 
-  // ONE SINGLE Number Shuffling Animation
+  // Individual Winner Shuffle Animation
   useEffect(() => {
-    if (drawState !== 'SINGLE_SHUFFLE' && drawState !== 'SHUFFLE_SLOWING') {
+    if (drawState !== 'SHUFFLE_ACTIVE' && drawState !== 'SHUFFLE_SLOWING') {
       if (shuffleIntervalRef.current) {
         clearInterval(shuffleIntervalRef.current);
       }
       return;
     }
     
-    const speed = drawState === 'SINGLE_SHUFFLE' ? 60 : 200;
+    const speed = drawState === 'SHUFFLE_ACTIVE' ? 60 : 200;
     
     shuffleIntervalRef.current = setInterval(() => {
+      // Visual shuffle - show random numbers
       const randomIndex = Math.floor(Math.random() * eligibleParticipants.length);
       setDisplayNumber(eligibleParticipants[randomIndex].memberId);
     }, speed);
     
-    // Transition to slowing after 3 seconds
-    if (drawState === 'SINGLE_SHUFFLE') {
+    // Transition to slowing after 2 seconds
+    if (drawState === 'SHUFFLE_ACTIVE') {
       setTimeout(() => {
         setDrawState('SHUFFLE_SLOWING');
         
-        // Lock and start winner reveals after slowing
+        // Lock and stop after slowing
         setTimeout(() => {
-          lockShuffle();
-        }, 3000);
-      }, 3000);
+          lockCurrentShuffle();
+        }, 2000);
+      }, 2000);
     }
     
     return () => {
@@ -210,88 +225,58 @@ const UserDraws = () => {
     };
   }, [drawState]);
 
-  // Lock shuffle and show CONGRATULATIONS first
-  const lockShuffle = () => {
+  // Lock current shuffle and reveal winner
+  const lockCurrentShuffle = () => {
     if (shuffleIntervalRef.current) {
       clearInterval(shuffleIntervalRef.current);
     }
     
-    if (selectedWinners.length > 0) {
-      setDisplayNumber(selectedWinners[0].memberId);
+    // Show the pre-selected winner number
+    if (currentShuffleWinner) {
+      setDisplayNumber(currentShuffleWinner.memberId);
     }
     
     setIsSphereStopped(true);
-    setDrawState('ALL_WINNERS_LOCKED');
+    setDrawState('WINNER_LOCKED');
     
-    // Show CONGRATULATIONS popup first (no winner details)
+    // Show CONGRATULATIONS
     setTimeout(() => {
       setDrawState('CONGRATULATIONS_POPUP');
       
-      // Start fireworks for congratulations
+      // Start fireworks
       setTimeout(() => {
-        triggerCelebration(0);
+        triggerCelebration(currentWinnerIndex % 5);
         startContinuousCelebration();
         
-        // Stop congratulations and start revealing winners
+        // Reveal winner details
         setTimeout(() => {
           stopContinuousCelebration();
-          setCurrentWinnerIndex(0);
-          revealNextWinner(0);
-        }, 3000);
-      }, 500);
-    }, 2000);
-  };
-
-  // Reveal winners sequentially with CONGRATULATIONS before EACH winner
-  const revealNextWinner = (winnerIndex) => {
-    if (winnerIndex >= selectedWinners.length) {
-      // All winners revealed, show final screen
-      setDrawState('FINAL_WINNERS');
-      
-      setTimeout(() => {
-        triggerFinalCelebration();
-        
-        setTimeout(() => {
-          setDrawState('COMPLETED');
-        }, 5000);
-      }, 1000);
-      
-      return;
-    }
-    
-    // Show CONGRATULATIONS before each winner
-    setDrawState('CONGRATULATIONS_POPUP');
-    setCurrentWinnerIndex(winnerIndex);
-    
-    // Start fireworks for congratulations
-    setTimeout(() => {
-      triggerCelebration(winnerIndex % 5);
-      startContinuousCelebration();
-      
-      // After congratulations, show the winner
-      setTimeout(() => {
-        stopContinuousCelebration();
-        setDrawState('WINNER_REVEAL');
-        
-        // Start winner celebration
-        setTimeout(() => {
-          triggerCelebration(winnerIndex % 5);
-          startContinuousCelebration();
-          setDrawState('WINNER_CELEBRATION');
           
-          // Stop celebration and move to next winner
+          // Add to winners list
+          setSelectedWinners(prev => [...prev, currentShuffleWinner]);
+          
+          setDrawState('WINNER_REVEAL');
+          
+          // Start winner celebration
           setTimeout(() => {
-            stopContinuousCelebration();
-            setDrawState('TRANSITION');
+            triggerCelebration(currentWinnerIndex % 5);
+            startContinuousCelebration();
+            setDrawState('WINNER_CELEBRATION');
             
-            // Short pause before next winner
+            // Stop celebration and prepare next winner
             setTimeout(() => {
-              revealNextWinner(winnerIndex + 1);
-            }, 500);
-          }, 3500);
-        }, 300);
-      }, 2500);
-    }, 500);
+              stopContinuousCelebration();
+              setDrawState('TRANSITION');
+              
+              // Short pause, then start next winner shuffle
+              setTimeout(() => {
+                startWinnerShuffle(currentWinnerIndex + 1);
+              }, 500);
+            }, 3000);
+          }, 300);
+        }, 2500);
+      }, 500);
+    }, 1500);
   };
 
   // Confetti Celebrations
@@ -390,7 +375,7 @@ const UserDraws = () => {
   // Cleanup on unmount and manage body class
   useEffect(() => {
     // Add/remove body class to prevent scrolling
-    const isDrawActive = ['FINAL_COUNTDOWN', 'SINGLE_SHUFFLE', 'SHUFFLE_SLOWING', 'ALL_WINNERS_LOCKED', 'CONGRATULATIONS_POPUP', 'WINNER_REVEAL', 'WINNER_CELEBRATION', 'TRANSITION', 'FINAL_WINNERS'].includes(drawState);
+    const isDrawActive = ['FINAL_COUNTDOWN', 'SHUFFLE_ACTIVE', 'SHUFFLE_SLOWING', 'WINNER_LOCKED', 'CONGRATULATIONS_POPUP', 'WINNER_REVEAL', 'WINNER_CELEBRATION', 'TRANSITION', 'FINAL_WINNERS'].includes(drawState);
     
     if (isDrawActive) {
       document.documentElement.classList.add('draw-active');
@@ -421,6 +406,8 @@ const UserDraws = () => {
     setDrawState('WAITING');
     setSelectedWinners([]);
     setCurrentWinnerIndex(0);
+    setCurrentShuffleWinner(null);
+    setAvailableParticipants([...eligibleParticipants]);
     setFinalCountdown(5);
     setIsSphereStopped(false);
     setDisplayNumber('0000');
@@ -429,7 +416,7 @@ const UserDraws = () => {
   };
 
   // Check if draw is active (fullscreen overlay needed)
-  const isDrawActive = ['FINAL_COUNTDOWN', 'SINGLE_SHUFFLE', 'SHUFFLE_SLOWING', 'ALL_WINNERS_LOCKED', 'CONGRATULATIONS_POPUP', 'WINNER_REVEAL', 'WINNER_CELEBRATION', 'TRANSITION', 'FINAL_WINNERS', 'COMPLETED'].includes(drawState);
+  const isDrawActive = ['FINAL_COUNTDOWN', 'SHUFFLE_ACTIVE', 'SHUFFLE_SLOWING', 'WINNER_LOCKED', 'CONGRATULATIONS_POPUP', 'WINNER_REVEAL', 'WINNER_CELEBRATION', 'TRANSITION', 'FINAL_WINNERS', 'COMPLETED'].includes(drawState);
 
   return (
     <>
@@ -601,7 +588,7 @@ const UserDraws = () => {
       )}
 
       {/* SHUFFLING / SLOWING / WINNER_LOCKED STATES */}
-      {(drawState === 'SINGLE_SHUFFLE' || drawState === 'SHUFFLE_SLOWING' || drawState === 'ALL_WINNERS_LOCKED') && (
+      {(drawState === 'SHUFFLE_ACTIVE' || drawState === 'SHUFFLE_SLOWING' || drawState === 'WINNER_LOCKED') && (
         <div className="live-draw-overlay-cinematic">
           <div className="cinematic-draw-stage">
             <motion.div
@@ -612,12 +599,12 @@ const UserDraws = () => {
               <h2 className="cinematic-title">MILLANCE</h2>
               <h1 className="cinematic-live-title">LIVE DRAW</h1>
               <p className="cinematic-subtitle">
-                {drawState === 'ALL_WINNERS_LOCKED' ? 'WINNERS SELECTED!' : 'SELECTING WINNERS...'}
+                {drawState === 'WINNER_LOCKED' ? 'WINNER SELECTED!' : 'SELECTING WINNER...'}
               </p>
             </motion.div>
 
             <div className="cinematic-prize-badge">
-              Selecting {drawPrizes.reduce((sum, p) => sum + p.winners, 0)} Winners
+              Winner {currentWinnerIndex + 1} of {drawPrizes.reduce((sum, p) => sum + p.winners, 0)}
             </div>
 
             {/* 3D Lottery Sphere */}
@@ -628,7 +615,7 @@ const UserDraws = () => {
             {/* Digital Number Display */}
             <DigitalNumberDisplay 
               number={displayNumber} 
-              isAnimating={drawState === 'SINGLE_SHUFFLE' || drawState === 'SHUFFLE_SLOWING'}
+              isAnimating={drawState === 'SHUFFLE_ACTIVE' || drawState === 'SHUFFLE_SLOWING'}
             />
           </div>
         </div>
@@ -829,8 +816,8 @@ const UserDraws = () => {
             </div>
           )}
 
-          {/* SHUFFLING / SLOWING / WINNER_LOCKED STATES - CLEAN MINIMAL */}
-          {(drawState === 'SINGLE_SHUFFLE' || drawState === 'SHUFFLE_SLOWING' || drawState === 'ALL_WINNERS_LOCKED') && (
+          {/* SHUFFLING / SLOWING / WINNER_LOCKED STATES */}
+          {(drawState === 'SHUFFLE_ACTIVE' || drawState === 'SHUFFLE_SLOWING' || drawState === 'WINNER_LOCKED') && (
             <div className="live-draw-overlay-cinematic">
               <div className="cinematic-draw-stage">
                 <motion.div
@@ -841,18 +828,23 @@ const UserDraws = () => {
                   <h2 className="cinematic-title">MILLANCE</h2>
                   <h1 className="cinematic-live-title">LIVE DRAW</h1>
                   <p className="cinematic-subtitle">
-                    {drawState === 'ALL_WINNERS_LOCKED' ? 'WINNERS SELECTED!' : 'SELECTING WINNERS...'}
+                    {drawState === 'WINNER_LOCKED' ? 'WINNER SELECTED!' : 'SELECTING WINNER...'}
                   </p>
                 </motion.div>
 
                 <div className="cinematic-prize-badge">
-                  Selecting {drawPrizes.reduce((sum, p) => sum + p.winners, 0)} Winners
+                  Winner {currentWinnerIndex + 1} of {drawPrizes.reduce((sum, p) => sum + p.winners, 0)}
                 </div>
 
-                {/* ONLY Digital Number Display - NO LOTTERY MACHINE */}
+                {/* 3D Lottery Sphere */}
+                <div className="lottery-sphere-wrapper">
+                  <LotterySphere isAnimating={!isSphereStopped} />
+                </div>
+
+                {/* Digital Number Display */}
                 <DigitalNumberDisplay 
                   number={displayNumber} 
-                  isAnimating={drawState === 'SINGLE_SHUFFLE' || drawState === 'SHUFFLE_SLOWING'}
+                  isAnimating={drawState === 'SHUFFLE_ACTIVE' || drawState === 'SHUFFLE_SLOWING'}
                 />
               </div>
             </div>
