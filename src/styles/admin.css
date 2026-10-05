@@ -1,0 +1,656 @@
+/* ===================================
+   ADMIN PANEL - PROFESSIONAL DARK THEME
+   =================================== */
+
+/* Admin Layout */
+.admin-layout {
+  display: flex;
+  min-height: 100vh;
+  background: #0f172a;
+}
+
+/* ===================================
+   ADMIN SIDEBAR
+   =================================== */
+
+.admin-sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 260px;
+  background: #1e293b;
+  border-right: 1px solid #334155;
+  z-index: 1000;
+  transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+.admin-sidebar-header {
+  padding: 20px;
+  border-bottom: 1px solid #334155;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.admin-logo-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.admin-logo-icon {
+  width: 40px;
+  height: 40px;
+  padding: 8px;
+  background: linear-gradient(135deg, #4EA8DE 0%, #9D4EDD 100%);
+  border-radius: 10px;
+  color: white;
+}
+
+.admin-logo {
+  font-size: 20px;
+  font-weight: 800;
+  color: white;
+  letter-spacing: 0.5px;
+  margin-bottom: 2px;
+}
+
+.admin-badge {
+  font-size: 10px;
+  font-weight: 600;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.admin-sidebar-close {
+  display: none;
+  background: none;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.admin-sidebar-close:hover {
+  background: #334155;
+  color: white;
+}
+
+/* Admin Navigation */
+.admin-nav {
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Custom scrollbar for admin sidebar navigation */
+.admin-nav::-webkit-scrollbar {
+  width: 6px;
+}
+
+.admin-nav::-webkit-scrollbar-track {
+  background: #1e293b;
+}
+
+.admin-nav::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 3px;
+}
+
+.admin-nav::-webkit-scrollbar-thumb:hover {
+  background: #475569;
+}
+
+.admin-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  color: #94a3b8;
+  text-decoration: none;
+  transition: all 0.2s;
+  margin-bottom: 4px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.admin-nav-item:hover {
+  background: #334155;
+  color: white;
+}
+
+.admin-nav-item.active {
+  background: linear-gradient(135deg, #4EA8DE 0%, #9D4EDD 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(78, 168, 222, 0.3);
+}
+
+.admin-nav-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+/* ===================================
+   ADMIN MAIN
+   =================================== */
+
+.admin-main {
+  flex: 1;
+  margin-left: 260px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Admin Header */
+.admin-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: #1e293b;
+  border-bottom: 1px solid #334155;
+  padding: 16px 24px;
+}
+
+.admin-menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+
+.admin-menu-btn:hover {
+  background: #334155;
+}
+
+.admin-header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.admin-page-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: white;
+}
+
+/* Admin Content */
+.admin-content {
+  flex: 1;
+  padding: 24px;
+  background: #0f172a;
+}
+
+/* Admin Overlay */
+.admin-overlay {
+  display: none;
+}
+
+/* ===================================
+   ADMIN DASHBOARD
+   =================================== */
+
+.admin-dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* KPI Grid */
+.admin-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.admin-kpi-card {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 14px;
+  padding: 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  transition: all 0.3s;
+}
+
+.admin-kpi-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.admin-kpi-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: white;
+}
+
+.admin-kpi-violet .admin-kpi-icon {
+  background: linear-gradient(135deg, #9D4EDD, #7B2CBF);
+}
+
+.admin-kpi-blue .admin-kpi-icon {
+  background: linear-gradient(135deg, #4EA8DE, #2E7DB5);
+}
+
+.admin-kpi-pink .admin-kpi-icon {
+  background: linear-gradient(135deg, #FF6B9D, #E5527A);
+}
+
+.admin-kpi-rose .admin-kpi-icon {
+  background: linear-gradient(135deg, #FFA8D5, #FF7EB9);
+}
+
+.admin-kpi-green .admin-kpi-icon {
+  background: linear-gradient(135deg, #10B981, #059669);
+}
+
+.admin-kpi-gold .admin-kpi-icon {
+  background: linear-gradient(135deg, #FFD700, #FFA500);
+}
+
+.admin-kpi-cyan .admin-kpi-icon {
+  background: linear-gradient(135deg, #66C9D0, #4EA8DE);
+}
+
+.admin-kpi-orange .admin-kpi-icon {
+  background: linear-gradient(135deg, #FF8C42, #FF6B2C);
+}
+
+.admin-kpi-content {
+  flex: 1;
+}
+
+.admin-kpi-value {
+  font-size: 24px;
+  font-weight: 800;
+  color: white;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.admin-kpi-label {
+  font-size: 12px;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+/* Section Grid */
+.admin-section-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+/* Admin Card */
+.admin-card {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.admin-card-header {
+  padding: 18px 20px;
+  border-bottom: 1px solid #334155;
+}
+
+.admin-card-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: white;
+}
+
+.admin-card-body {
+  padding: 20px;
+}
+
+/* Progress Bar */
+.admin-progress {
+  width: 100%;
+  height: 8px;
+  background: #334155;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.admin-progress-bar {
+  height: 100%;
+  border-radius: 10px;
+  transition: width 0.5s ease;
+}
+
+/* Activity Dots */
+.admin-activity-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.admin-activity-user {
+  background: #4EA8DE;
+}
+
+.admin-activity-payment {
+  background: #10B981;
+}
+
+.admin-activity-draw {
+  background: #9D4EDD;
+}
+
+.admin-activity-franchise {
+  background: #FFD700;
+}
+
+/* ===================================
+   RESPONSIVE
+   =================================== */
+
+@media (max-width: 1024px) {
+  .admin-sidebar {
+    transform: translateX(-100%);
+  }
+
+  .admin-sidebar.open {
+    transform: translateX(0);
+  }
+
+  .admin-sidebar-close {
+    display: block;
+  }
+
+  .admin-main {
+    margin-left: 0;
+  }
+
+  .admin-menu-btn {
+    display: block;
+  }
+
+  .admin-overlay {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+  }
+}
+
+@media (max-width: 640px) {
+  .admin-content {
+    padding: 16px;
+  }
+
+  .admin-kpi-grid {
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+  }
+
+  .admin-kpi-card {
+    padding: 14px;
+  }
+
+  .admin-kpi-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .admin-kpi-value {
+    font-size: 20px;
+  }
+
+  .admin-kpi-label {
+    font-size: 11px;
+  }
+
+  .admin-section-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* ============================================
+   DROPDOWN FIX - PREVENT CLIPPING
+   ============================================ */
+
+/* Ensure admin select dropdowns are not clipped */
+select {
+  position: relative;
+  z-index: 100;
+  padding-right: 36px !important;
+}
+
+select:focus {
+  z-index: 9999;
+}
+
+/* Admin filter sections */
+.admin-filter-bar,
+.admin-filters,
+.filter-section {
+  overflow: visible !important;
+  position: relative;
+  z-index: 50;
+}
+
+.filter-group {
+  position: relative;
+  overflow: visible !important;
+  z-index: 100;
+}
+
+/* Ensure admin cards don't clip dropdowns */
+.admin-card,
+.stat-card,
+.data-card {
+  overflow: visible !important;
+}
+
+/* Modal selects */
+.modal-content select {
+  position: relative;
+  z-index: 100;
+}
+
+
+/* ============================================
+   MODAL & NOTIFICATION ANIMATIONS
+   ============================================ */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes modalSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.2s ease-out forwards;
+}
+
+.animate-modalSlideUp {
+  animation: modalSlideUp 0.3s ease-out forwards;
+}
+
+.animate-slideInRight {
+  animation: slideInRight 0.4s ease-out forwards;
+}
+
+
+/* ============================================
+   CREATE FRANCHISE MODAL - MOBILE RESPONSIVE
+   ============================================ */
+
+@media (max-width: 767px) {
+  .animate-modalSlideUp {
+    max-height: 92dvh !important;
+  }
+
+  .animate-modalSlideUp > div:first-child {
+    padding: 1rem 1.25rem;
+  }
+
+  .animate-modalSlideUp > div:nth-child(2) {
+    padding: 1.25rem;
+  }
+
+  .animate-modalSlideUp > div:last-child {
+    padding: 1rem 1.25rem;
+  }
+
+  /* Single column on mobile */
+  .grid.grid-cols-1.md\\:grid-cols-2 {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Compact inputs on mobile */
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="password"],
+  select,
+  textarea {
+    padding-top: 0.625rem !important;
+    padding-bottom: 0.625rem !important;
+    font-size: 0.875rem;
+  }
+}
+
+/* Scrollbar styling for modal */
+.overflow-y-auto::-webkit-scrollbar {
+  width: 6px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-track {
+  background: rgba(51, 65, 85, 0.3);
+  border-radius: 10px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb {
+  background: rgba(139, 92, 246, 0.4);
+  border-radius: 10px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb:hover {
+  background: rgba(139, 92, 246, 0.6);
+}
+
+
+/* ============================================
+   CREATE FRANCHISE MODAL - SCROLLBAR
+   ============================================ */
+
+/* Custom scrollbar for modal body */
+.overflow-y-auto::-webkit-scrollbar {
+  width: 6px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-track {
+  background: rgba(51, 65, 85, 0.3);
+  border-radius: 10px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb {
+  background: rgba(139, 92, 246, 0.4);
+  border-radius: 10px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb:hover {
+  background: rgba(139, 92, 246, 0.6);
+}
+
+/* Mobile responsive modal */
+@media (max-width: 767px) {
+  .animate-modalSlideUp {
+    max-height: calc(100dvh - 24px) !important;
+  }
+
+  /* Single column on mobile */
+  .grid.grid-cols-1.md\\:grid-cols-2 {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Tablet responsive header */
+@media (max-width: 1024px) and (min-width: 768px) {
+  .animate-modalSlideUp > div:first-child {
+    height: 78px !important;
+    min-height: 78px !important;
+    max-height: 78px !important;
+  }
+  
+  .animate-modalSlideUp h2 {
+    font-size: 24px !important;
+  }
+  
+  .animate-modalSlideUp p {
+    font-size: 14px !important;
+  }
+}
+
+/* Mobile responsive header */
+@media (max-width: 767px) {
+  .animate-modalSlideUp > div:first-child {
+    height: 72px !important;
+    min-height: 72px !important;
+    max-height: 72px !important;
+    padding: 10px 14px !important;
+  }
+  
+  .animate-modalSlideUp h2 {
+    font-size: 20px !important;
+  }
+  
+  .animate-modalSlideUp p {
+    font-size: 12px !important;
+  }
+}
+
