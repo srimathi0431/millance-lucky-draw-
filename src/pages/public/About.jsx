@@ -67,7 +67,7 @@ const About = () => {
                 Every month on the 15th, we conduct transparent lucky draws where lucky winners take home amazing prizes including bikes, gold coins, LED TVs, furniture, and much more!
               </p>
               <p className="font-semibold text-gray-900">
-                ஆரம்பமான அனுமுகம் – அதிர்ஷ்ட பரிசுகள்
+                ஆனந்தமான ஆனைமுகம் வழங்கும் அதிர்ஷ்ட பரிசுகள்
               </p>
             </div>
           </div>

@@ -16,6 +16,18 @@ const PublicLayout = ({ children }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isMobileMenuOpen]);
+
   const navItems = [
     { name: 'Home', path: '/', icon: Home },
     { name: 'About', path: '/about', icon: Info },
@@ -75,33 +87,139 @@ const PublicLayout = ({ children }) => {
                 <span>Login</span>
               </Link>
 
-              {/* Mobile Menu Button */}
+              {/* Mobile Menu Hamburger Button */}
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="lg:hidden p-2 hover:bg-gray-100 rounded-lg transition"
+                className="lg:hidden w-[42px] h-[42px] rounded-[10px] bg-white/[0.18] border border-white/25 flex items-center justify-center hover:bg-white/25 active:scale-95 transition-all"
+                aria-label="Toggle menu"
               >
-                {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                <div className="relative w-6 h-6 flex items-center justify-center">
+                  {/* Hamburger to X animation */}
+                  <span className={`absolute w-6 h-0.5 bg-slate-800 transition-all duration-300 ${isMobileMenuOpen ? 'rotate-45' : '-translate-y-2'}`}></span>
+                  <span className={`absolute w-6 h-0.5 bg-slate-800 transition-all duration-300 ${isMobileMenuOpen ? 'opacity-0' : 'opacity-100'}`}></span>
+                  <span className={`absolute w-6 h-0.5 bg-slate-800 transition-all duration-300 ${isMobileMenuOpen ? '-rotate-45' : 'translate-y-2'}`}></span>
+                </div>
               </button>
             </div>
           </div>
 
-          {/* Mobile Menu */}
+          {/* Premium Mobile Drawer Menu */}
           {isMobileMenuOpen && (
-            <div className="lg:hidden py-4 border-t animate-fade-down">
-              {navItems.map((item) => (
-                <Link
-                  key={item.path}
-                  to={item.path}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className={`flex items-center gap-3 px-4 py-3 hover:bg-gray-50 rounded-lg transition ${
-                    isActive(item.path) ? 'text-soft-pink bg-pink-50' : 'text-gray-700'
-                  }`}
-                >
-                  <item.icon className="w-5 h-5" />
-                  <span className="font-medium">{item.name}</span>
-                </Link>
-              ))}
-            </div>
+            <>
+              {/* Backdrop */}
+              <div 
+                className="fixed inset-0 bg-slate-900/35 backdrop-blur-[5px] z-[9998] lg:hidden animate-fade-in"
+                style={{ animationDuration: '250ms' }}
+                onClick={() => setIsMobileMenuOpen(false)}
+              />
+              
+              {/* Drawer */}
+              <div 
+                className="fixed top-0 right-0 h-screen w-[min(320px,85vw)] bg-gradient-to-b from-pink-300 via-purple-300 to-blue-300 border-l border-white/40 shadow-[-10px_0_40px_rgba(0,0,0,0.18)] z-[9999] lg:hidden overflow-y-auto"
+                style={{
+                  animation: 'slideInRight 280ms ease-out'
+                }}
+              >
+                {/* Drawer Header */}
+                <div className="flex items-center justify-between p-4 border-b border-white/30">
+                  <div className="flex items-center gap-2">
+                    <div className="w-10 h-10 bg-gradient-to-br from-soft-pink to-soft-rose rounded-xl flex items-center justify-center shadow-lg">
+                      <Trophy className="w-6 h-6 text-white" />
+                    </div>
+                    <span className="text-xl font-bold text-slate-800">Millance</span>
+                  </div>
+                  
+                  {/* Close Button */}
+                  <button
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="w-10 h-10 rounded-[10px] bg-white/25 hover:bg-white/35 flex items-center justify-center transition-all active:scale-95"
+                    aria-label="Close menu"
+                  >
+                    <X className="w-5 h-5 text-slate-800" />
+                  </button>
+                </div>
+
+                {/* Navigation Items */}
+                <div className="p-4 space-y-1.5">
+                  {navItems.map((item, index) => {
+                    const Icon = item.icon;
+                    const active = isActive(item.path);
+                    return (
+                      <Link
+                        key={item.path}
+                        to={item.path}
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className={`flex items-center gap-3 h-[48px] px-4 rounded-[10px] transition-all ${
+                          active 
+                            ? 'bg-white/45 border border-white/50 font-bold shadow-sm' 
+                            : 'hover:bg-white/25 border border-transparent font-medium'
+                        }`}
+                        style={{
+                          animation: `slideInItem 300ms ease-out ${index * 40}ms both`
+                        }}
+                      >
+                        {active && (
+                          <div className="w-1.5 h-1.5 rounded-full bg-pink-500 animate-pulse" />
+                        )}
+                        <Icon className="w-[18px] h-[18px] text-slate-700" />
+                        <span className="text-[15px] text-slate-800">{item.name}</span>
+                      </Link>
+                    );
+                  })}
+
+                  {/* Login Item */}
+                  <Link
+                    to="/login"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="flex items-center gap-3 h-[48px] px-4 rounded-[10px] transition-all hover:bg-white/25 border border-transparent font-medium mt-2"
+                    style={{
+                      animation: `slideInItem 300ms ease-out ${navItems.length * 40}ms both`
+                    }}
+                  >
+                    <LogIn className="w-[18px] h-[18px] text-slate-700" />
+                    <span className="text-[15px] text-slate-800">Login</span>
+                  </Link>
+                </div>
+              </div>
+
+              {/* Animations */}
+              <style>{`
+                @keyframes slideInRight {
+                  from {
+                    transform: translateX(100%);
+                    opacity: 0;
+                  }
+                  to {
+                    transform: translateX(0);
+                    opacity: 1;
+                  }
+                }
+                
+                @keyframes slideInItem {
+                  from {
+                    transform: translateX(15px);
+                    opacity: 0;
+                  }
+                  to {
+                    transform: translateX(0);
+                    opacity: 1;
+                  }
+                }
+                
+                @keyframes fade-in {
+                  from {
+                    opacity: 0;
+                  }
+                  to {
+                    opacity: 1;
+                  }
+                }
+                
+                .animate-fade-in {
+                  animation: fade-in 250ms ease-out;
+                }
+              `}</style>
+            </>
           )}
         </div>
       </nav>
@@ -126,7 +244,7 @@ const PublicLayout = ({ children }) => {
                 <span className="text-xl font-bold text-white">Millance</span>
               </div>
               <p className="text-gray-400 text-sm">
-                ஆரம்பமான அனுமுகம் – அதிர்ஷ்ட பரிசுகள்
+                ஆனந்தமான ஆனைமுகம் வழங்கும் அதிர்ஷ்ட பரிசுகள்
               </p>
             </div>
 
@@ -157,8 +275,10 @@ const PublicLayout = ({ children }) => {
               <h4 className="font-semibold text-white mb-4">Contact</h4>
               <div className="space-y-2 text-sm text-gray-400">
                 <p>Email: info@millance.com</p>
-                <p>Phone: +91 XXXXX XXXXX</p>
-                <p>Address: Tamil Nadu, India</p>
+                <p>Phone: +91 84383 86649</p>
+                <p>Address: 6/1582B, Sabapathi nagar,</p>
+                <p>Thalaivasal, SALEM,</p>
+                <p>Tamil Nadu - 636112, India</p>
               </div>
             </div>
           </div>

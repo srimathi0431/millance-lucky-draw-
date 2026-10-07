@@ -106,37 +106,28 @@ const Home = () => {
 
   return (
     <PublicLayout>
-      {/* Animated Background */}
-      <div className="premium-bg-wrapper">
-        <div className="premium-bg-bubble premium-bubble-1"></div>
-        <div className="premium-bg-bubble premium-bubble-2"></div>
-        <div className="premium-bg-bubble premium-bubble-3"></div>
-        <div className="premium-bg-bubble premium-bubble-4"></div>
-        <div className="premium-bg-particle"></div>
-      </div>
-
       {/* Hero Section */}
-      <section className="premium-hero section-delay-0">
+      <section className="premium-hero">
         <div className="container-premium">
           <div className="premium-hero-grid">
             {/* Left Content */}
             <div className="premium-hero-content">
-              <div className="premium-badge animate-fade-down">
+              <div className="premium-badge">
                 <Star className="w-4 h-4 fill-current" />
                 <span>India's Most Trusted Lucky Draw</span>
               </div>
 
-              <h1 className="premium-hero-title animate-fade-up">
+              <h1 className="premium-hero-title">
                 Win Amazing Prizes
                 <span className="premium-gradient-text">Every Month!</span>
               </h1>
 
-              <p className="premium-hero-subtitle animate-fade-up" style={{ animationDelay: '0.1s' }}>
-                ஆரம்பமான அனுமுகம் – அதிர்ஷ்ட பரிசுகள்<br />
+              <p className="premium-hero-subtitle">
+                ஆனந்தமான ஆனைமுகம் வழங்கும் அதிர்ஷ்ட பரிசுகள்<br />
                 Join Millance and win bikes, gold, furniture, electronics & more
               </p>
 
-              <div className="premium-hero-buttons animate-fade-up" style={{ animationDelay: '0.2s' }}>
+              <div className="premium-hero-buttons">
                 <Link to="/teams" className="premium-btn premium-btn-primary">
                   <span>Join Lucky Draw</span>
                   <ArrowRight className="w-5 h-5" />
@@ -172,14 +163,13 @@ const Home = () => {
       </section>
 
       {/* Stats Section */}
-      <section className="premium-stats-section section-delay-1 animate-fade-up">
+      <section className="premium-stats-section">
         <div className="container-premium">
           <div className="premium-stats-grid">
             {stats.map((stat, index) => (
               <div
                 key={index}
-                className={`premium-stat-card premium-stat-${stat.gradient} animate-scale-pop`}
-                style={{ animationDelay: stat.delay }}
+                className={`premium-stat-card premium-stat-${stat.gradient}`}
               >
                 <div className="premium-stat-icon">
                   <stat.icon className="w-6 h-6" />
@@ -195,7 +185,7 @@ const Home = () => {
       </section>
 
       {/* How It Works */}
-      <section className="premium-section section-delay-2 animate-fade-up">
+      <section className="premium-section">
         <div className="container-premium">
           <div className="premium-section-header">
             <h2 className="premium-section-title">
@@ -210,8 +200,7 @@ const Home = () => {
             {howItWorks.map((step, index) => (
               <div
                 key={index}
-                className={`premium-step-card premium-step-${step.color} ${index % 2 === 0 ? 'animate-slide-left' : 'animate-slide-right'}`}
-                style={{ animationDelay: `${index * 0.1}s` }}
+                className={`premium-step-card premium-step-${step.color}`}
               >
                 <div className="premium-step-number">{step.step}</div>
                 <div className="premium-step-icon">
@@ -231,7 +220,7 @@ const Home = () => {
       </section>
 
       {/* Features Section */}
-      <section className="premium-section premium-section-alt section-delay-3 animate-fade-up">
+      <section className="premium-section premium-section-alt">
         <div className="container-premium">
           <div className="premium-section-header">
             <h2 className="premium-section-title">
@@ -246,8 +235,7 @@ const Home = () => {
             {features.map((feature, index) => (
               <div
                 key={index}
-                className={`premium-feature-card premium-feature-${feature.gradient} animate-float-up`}
-                style={{ animationDelay: `${index * 0.1}s` }}
+                className={`premium-feature-card premium-feature-${feature.gradient}`}
               >
                 <div className="premium-feature-icon">
                   <feature.icon className="w-8 h-8" />
@@ -276,8 +264,7 @@ const Home = () => {
             {prizes.map((prize, index) => (
               <div
                 key={index}
-                className={`premium-prize-card premium-prize-${prize.color} animate-scale-pop animate-border-glow`}
-                style={{ animationDelay: `${index * 0.05}s` }}
+                className={`premium-prize-card premium-prize-${prize.color}`}
               >
                 <div className="premium-prize-image">
                   <img src={prize.image} alt={prize.name} />
@@ -330,21 +317,26 @@ const Home = () => {
       <section className="premium-section">
         <div className="container-premium">
           <div className="premium-section-header">
-            <h2 className="premium-section-title">
-              Choose Your <span className="premium-gradient-text">Team</span>
-            </h2>
-            <p className="premium-section-subtitle">
-              Select the team that fits your preference
-            </p>
+            <div>
+              <h2 className="premium-section-title">
+                Choose Your <span className="premium-gradient-text">Team</span>
+              </h2>
+              <p className="premium-section-subtitle">
+                Select the team that fits your preference
+              </p>
+            </div>
+            <Link to="/teams" className="premium-btn premium-btn-outline" style={{ marginTop: '1rem' }}>
+              <span>View All Teams</span>
+              <ArrowRight className="w-5 h-5" />
+            </Link>
           </div>
 
           <div className="premium-teams-grid">
             {TEAMS.map((team, index) => (
               <Link
                 key={index}
-                to={`/teams/team-${index + 1}`}
-                className={`premium-team-card premium-team-${index === 0 ? 'pink' : 'blue'} animate-3d-lift animate-float-up`}
-                style={{ animationDelay: `${index * 0.1}s` }}
+                to="/teams"
+                className={`premium-team-card premium-team-${index === 0 ? 'pink' : 'blue'}`}
               >
                 <div className="premium-team-icon">
                   <Users className="w-10 h-10" />

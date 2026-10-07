@@ -79,8 +79,6 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/how-it-works" element={<HowItWorks />} />
         <Route path="/teams" element={<Teams />} />
-        <Route path="/teams/team-1" element={<TeamDetail teamId={1} />} />
-        <Route path="/teams/team-2" element={<TeamDetail teamId={2} />} />
         <Route path="/prizes" element={<Prizes />} />
         <Route path="/draw" element={<Draw />} />
         <Route path="/winners" element={<Winners />} />

@@ -136,15 +136,15 @@
 .public-nav-link {
   position: relative;
   padding: 0.5rem 1rem;
-  color: rgba(255, 255, 255, 0.95);
+  color: #1e293b;
   font-weight: 600;
   transition: all 0.3s ease;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  text-shadow: none;
 }
 
 .public-nav-link:hover {
-  color: white;
-  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+  color: #ec4899;
+  text-shadow: none;
 }
 
 .public-nav-link::after {
@@ -197,45 +197,101 @@
   backdrop-filter: blur(10px);
   border-radius: 16px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .premium-box:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.15);
 }
 
-/* Different Border Colors */
+/* Different Border Colors with Hover */
 .border-pink {
   border: 2px solid #EC4899;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.border-pink:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 28px rgba(236, 72, 153, 0.3), 0 0 20px rgba(236, 72, 153, 0.15);
+  border-color: #F472B6;
 }
 
 .border-purple {
   border: 2px solid #8B5CF6;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.border-purple:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 28px rgba(139, 92, 246, 0.3), 0 0 20px rgba(139, 92, 246, 0.15);
+  border-color: #A78BFA;
 }
 
 .border-blue {
   border: 2px solid #3B82F6;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.border-blue:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 28px rgba(59, 130, 246, 0.3), 0 0 20px rgba(59, 130, 246, 0.15);
+  border-color: #60A5FA;
 }
 
 .border-cyan {
   border: 2px solid #06B6D4;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.border-cyan:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 28px rgba(6, 182, 212, 0.3), 0 0 20px rgba(6, 182, 212, 0.15);
+  border-color: #22D3EE;
 }
 
 .border-green {
   border: 2px solid #10B981;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.border-green:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 28px rgba(16, 185, 129, 0.3), 0 0 20px rgba(16, 185, 129, 0.15);
+  border-color: #34D399;
 }
 
 .border-orange {
   border: 2px solid #F97316;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.border-orange:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 28px rgba(249, 115, 22, 0.3), 0 0 20px rgba(249, 115, 22, 0.15);
+  border-color: #FB923C;
 }
 
 .border-gold {
   border: 2px solid #F59E0B;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.border-gold:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 28px rgba(245, 158, 11, 0.3), 0 0 20px rgba(245, 158, 11, 0.15);
+  border-color: #FBBF24;
 }
 
 .border-red {
   border: 2px solid #EF4444;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.border-red:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 28px rgba(239, 68, 68, 0.3), 0 0 20px rgba(239, 68, 68, 0.15);
+  border-color: #F87171;
 }
 
 /* ============================================
@@ -526,12 +582,12 @@
   backdrop-filter: blur(10px);
   border-radius: 16px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .premium-stat-card:hover {
-  transform: scale(1.02);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.15);
 }
 
 .premium-stat-pink-purple {
@@ -606,6 +662,12 @@
   z-index: 10;
 }
 
+/* Remove top padding when section comes after countdown */
+.premium-countdown-section + .premium-section {
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
 @media (min-width: 768px) {
   .premium-section {
     padding: 3rem 0;
@@ -678,12 +740,12 @@
   border-radius: 18px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   text-align: center;
-  transition: all 0.3s ease;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .premium-step-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+  transform: translateY(-6px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
 }
 
 .premium-step-pink {
@@ -814,12 +876,12 @@
   border-radius: 18px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   text-align: center;
-  transition: all 0.3s ease;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .premium-feature-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+  transform: translateY(-6px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
 }
 
 .premium-feature-pink-gradient {
@@ -907,13 +969,13 @@
   backdrop-filter: blur(10px);
   border-radius: 16px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s ease;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
 }
 
 .premium-prize-card:hover {
-  transform: scale(1.02);
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+  transform: translateY(-5px) scale(1.03);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
 }
 
 .premium-prize-pink {
@@ -971,24 +1033,38 @@
    COUNTDOWN - COMPACT
    ============================================ */
 
+.premium-countdown-section + .premium-section {
+  padding-top: 0;
+  margin-top: 0;
+}
+
+.premium-countdown-section + .premium-cta-section {
+  padding-top: 0;
+  margin-top: 0;
+}
+
 .premium-countdown-section {
-  padding: 2.5rem 0;
+  padding: 0;
   position: relative;
   z-index: 10;
+  margin: 0 0 1.5rem 0;
 }
 
 .premium-countdown-wrapper {
   max-width: 800px;
   margin: 0 auto;
-  padding: 2rem 1.5rem;
+  padding: 1.5rem 1rem 1rem 1rem;
   background: linear-gradient(135deg, 
     rgba(236, 72, 153, 0.95), 
     rgba(139, 92, 246, 0.95)
   );
   backdrop-filter: blur(20px);
   border-radius: 20px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  box-shadow: none;
   text-align: center;
+  overflow: hidden;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .premium-countdown-header {
@@ -1018,12 +1094,13 @@
   backdrop-filter: blur(10px);
   border-radius: 14px;
   border: 2px solid rgba(255, 255, 255, 0.3);
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .premium-countdown-box:hover {
   background: rgba(255, 255, 255, 0.25);
-  transform: scale(1.05);
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
 .premium-countdown-days {
@@ -1179,7 +1256,8 @@
    ============================================ */
 
 .premium-cta-section {
-  padding: 3rem 0;
+  padding: 0;
+  margin: 0;
   position: relative;
   z-index: 10;
   background: linear-gradient(135deg, 
@@ -1653,19 +1731,49 @@
   }
 
   .premium-countdown-wrapper {
-    padding: 1.5rem 1rem;
+    padding: 1.5rem 0.75rem;
+    margin: 0 0.5rem;
   }
 
   .premium-countdown-title {
-    font-size: 1.125rem;
+    font-size: 1rem;
+    word-wrap: break-word;
+  }
+  
+  .premium-countdown-header {
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
   }
 
   .premium-countdown-grid {
-    gap: 0.5rem;
+    gap: 0.375rem;
   }
 
   .premium-countdown-box {
-    padding: 1rem 0.5rem;
+    padding: 0.75rem 0.5rem;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    min-height: 70px;
+  }
+
+  .premium-countdown-value {
+    font-size: 1.5rem;
+    line-height: 1;
+    margin: 0;
+  }
+
+  .premium-countdown-label {
+    font-size: 0.5rem;
+    line-height: 1;
+    white-space: nowrap;
+    margin: 0;
+    letter-spacing: -0.3px;
+    text-align: center;
   }
 
   .premium-countdown-value {
@@ -1694,7 +1802,8 @@
   }
 
   .premium-cta-section {
-    padding: 2.5rem 0;
+    padding: 0;
+    margin: 0;
   }
 
   .premium-cta-icon {
@@ -1787,7 +1896,8 @@
   }
 
   .premium-cta-section {
-    padding: 2rem 0;
+    padding: 0;
+    margin: 0;
   }
 
   .premium-cta-title {
@@ -2016,6 +2126,175 @@
   }
 }
 
+/* ============================================
+   AUTOMATIC PAGE LOAD CONTENT ANIMATIONS
+   ============================================ */
+
+/* Initial hidden state - IMPORTANT */
+.page-transition[data-animate="true"] .premium-hero,
+.page-transition[data-animate="true"] .premium-stats-section,
+.page-transition[data-animate="true"] .premium-section,
+.page-transition[data-animate="true"] .premium-stat-card,
+.page-transition[data-animate="true"] .premium-step-card,
+.page-transition[data-animate="true"] .premium-feature-card,
+.page-transition[data-animate="true"] .premium-prize-card,
+.page-transition[data-animate="true"] .premium-team-card,
+.page-transition[data-animate="true"] .premium-countdown-wrapper,
+.page-transition[data-animate="true"] .premium-cta-section {
+  opacity: 1 !important;
+}
+
+/* When page loads, animate sections automatically */
+.page-transition[data-animate="true"] .premium-hero {
+  animation: auto-fade-up 0.7s ease-out 0.1s forwards;
+}
+
+.page-transition[data-animate="true"] .premium-stats-section {
+  animation: auto-fade-up 0.7s ease-out 0.3s forwards;
+}
+
+.page-transition[data-animate="true"] .premium-section:nth-of-type(1) {
+  animation: auto-fade-up 0.7s ease-out 0.2s forwards;
+}
+
+.page-transition[data-animate="true"] .premium-section:nth-of-type(2) {
+  animation: auto-fade-up 0.7s ease-out 0.35s forwards;
+}
+
+.page-transition[data-animate="true"] .premium-section:nth-of-type(3) {
+  animation: auto-fade-up 0.7s ease-out 0.5s forwards;
+}
+
+.page-transition[data-animate="true"] .premium-section:nth-of-type(4) {
+  animation: auto-fade-up 0.7s ease-out 0.65s forwards;
+}
+
+.page-transition[data-animate="true"] .premium-section:nth-of-type(5) {
+  animation: auto-fade-up 0.7s ease-out 0.8s forwards;
+}
+
+/* Animate cards inside sections with stagger */
+.page-transition[data-animate="true"] .premium-step-card:nth-child(1),
+.page-transition[data-animate="true"] .premium-feature-card:nth-child(1),
+.page-transition[data-animate="true"] .premium-prize-card:nth-child(1) {
+  animation: auto-scale-in 0.6s ease-out 0.4s forwards;
+}
+
+.page-transition[data-animate="true"] .premium-step-card:nth-child(2),
+.page-transition[data-animate="true"] .premium-feature-card:nth-child(2),
+.page-transition[data-animate="true"] .premium-prize-card:nth-child(2) {
+  animation: auto-scale-in 0.6s ease-out 0.5s forwards;
+}
+
+.page-transition[data-animate="true"] .premium-step-card:nth-child(3),
+.page-transition[data-animate="true"] .premium-feature-card:nth-child(3),
+.page-transition[data-animate="true"] .premium-prize-card:nth-child(3) {
+  animation: auto-scale-in 0.6s ease-out 0.6s forwards;
+}
+
+.page-transition[data-animate="true"] .premium-step-card:nth-child(4),
+.page-transition[data-animate="true"] .premium-feature-card:nth-child(4),
+.page-transition[data-animate="true"] .premium-prize-card:nth-child(4) {
+  animation: auto-scale-in 0.6s ease-out 0.7s forwards;
+}
+
+.page-transition[data-animate="true"] .premium-step-card:nth-child(5),
+.page-transition[data-animate="true"] .premium-feature-card:nth-child(5),
+.page-transition[data-animate="true"] .premium-prize-card:nth-child(5) {
+  animation: auto-scale-in 0.6s ease-out 0.8s forwards;
+}
+
+.page-transition[data-animate="true"] .premium-step-card:nth-child(6),
+.page-transition[data-animate="true"] .premium-feature-card:nth-child(6),
+.page-transition[data-animate="true"] .premium-prize-card:nth-child(6) {
+  animation: auto-scale-in 0.6s ease-out 0.9s forwards;
+}
+
+/* Team cards slide in from sides */
+.page-transition[data-animate="true"] .premium-team-card:nth-child(1) {
+  animation: auto-slide-left 0.7s ease-out 0.3s forwards;
+}
+
+.page-transition[data-animate="true"] .premium-team-card:nth-child(2) {
+  animation: auto-slide-right 0.7s ease-out 0.3s forwards;
+}
+
+/* Stats cards pop in */
+.page-transition[data-animate="true"] .premium-stat-card {
+  animation: auto-scale-in 0.6s ease-out forwards;
+}
+
+.page-transition[data-animate="true"] .premium-stat-card:nth-child(1) {
+  animation-delay: 0.3s;
+}
+
+.page-transition[data-animate="true"] .premium-stat-card:nth-child(2) {
+  animation-delay: 0.4s;
+}
+
+.page-transition[data-animate="true"] .premium-stat-card:nth-child(3) {
+  animation-delay: 0.5s;
+}
+
+.page-transition[data-animate="true"] .premium-stat-card:nth-child(4) {
+  animation-delay: 0.6s;
+}
+
+/* Countdown section */
+.page-transition[data-animate="true"] .premium-countdown-wrapper {
+  animation: auto-scale-in 0.7s ease-out 0.3s forwards;
+}
+
+/* CTA section */
+.page-transition[data-animate="true"] .premium-cta-section {
+  animation: auto-fade-up 0.7s ease-out 0.2s forwards;
+}
+
+/* Auto animations keyframes */
+@keyframes auto-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes auto-scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes auto-slide-left {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes auto-slide-right {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
 /* Section Stagger Delays */
 .section-delay-0 {
   animation-delay: 0ms !important;
@@ -2072,6 +2351,51 @@
       transform: translateY(-5px);
     }
   }
+
+  /* Mobile auto animations - smaller movement */
+  @keyframes auto-fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes auto-scale-in {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes auto-slide-left {
+    from {
+      opacity: 0;
+      transform: translateX(-15px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes auto-slide-right {
+    from {
+      opacity: 0;
+      transform: translateX(15px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
 }
 
 /* Reduced Motion Support */
@@ -2102,6 +2426,29 @@
     }
   }
 
+  /* Disable all auto animations for reduced motion */
+  .page-transition[data-animate="true"] .premium-hero,
+  .page-transition[data-animate="true"] .premium-stats-section,
+  .page-transition[data-animate="true"] .premium-section,
+  .page-transition[data-animate="true"] .premium-step-card,
+  .page-transition[data-animate="true"] .premium-feature-card,
+  .page-transition[data-animate="true"] .premium-prize-card,
+  .page-transition[data-animate="true"] .premium-team-card,
+  .page-transition[data-animate="true"] .premium-stat-card,
+  .page-transition[data-animate="true"] .premium-countdown-wrapper,
+  .page-transition[data-animate="true"] .premium-cta-section {
+    animation: auto-fade-only 0.3s ease-out backwards;
+  }
+
+  @keyframes auto-fade-only {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
   /* Disable section delays for reduced motion */
   .section-delay-1,
   .section-delay-2,
@@ -2109,5 +2456,393 @@
   .section-delay-4,
   .section-delay-5 {
     animation-delay: 0ms !important;
+  }
+}
+
+
+/* ============================================
+   SCROLL REVEAL ANIMATIONS - INTERSECTION OBSERVER
+   ============================================ */
+
+/* Base state before animation */
+.opacity-0 {
+  opacity: 0;
+}
+
+/* Scroll Reveal Animation Types */
+
+/* 1. Float Up - Default */
+.animate-float-up {
+  animation: scroll-float-up 0.7s ease-out forwards;
+}
+
+@keyframes scroll-float-up {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 2. Scale Pop */
+.animate-scale-pop {
+  animation: scroll-scale-pop 0.6s ease-out forwards;
+}
+
+@keyframes scroll-scale-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* 3. Slide Left */
+.animate-slide-left {
+  animation: scroll-slide-left 0.7s ease-out forwards;
+}
+
+@keyframes scroll-slide-left {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* 4. Slide Right */
+.animate-slide-right {
+  animation: scroll-slide-right 0.7s ease-out forwards;
+}
+
+@keyframes scroll-slide-right {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* 5. Fade Scale (Hero style) */
+.animate-fade-scale {
+  animation: scroll-fade-scale 0.8s ease-out forwards;
+}
+
+@keyframes scroll-fade-scale {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* 6. Blur Reveal */
+.animate-blur-reveal {
+  animation: scroll-blur-reveal 0.9s ease-out forwards;
+}
+
+@keyframes scroll-blur-reveal {
+  from {
+    opacity: 0;
+    filter: blur(8px);
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+}
+
+/* Mobile Optimized Scroll Animations */
+@media (max-width: 767px) {
+  .animate-float-up {
+    animation: scroll-float-up-mobile 0.5s ease-out forwards;
+  }
+
+  .animate-scale-pop {
+    animation: scroll-scale-pop-mobile 0.5s ease-out forwards;
+  }
+
+  .animate-slide-left {
+    animation: scroll-slide-left-mobile 0.5s ease-out forwards;
+  }
+
+  .animate-slide-right {
+    animation: scroll-slide-right-mobile 0.5s ease-out forwards;
+  }
+
+  .animate-fade-scale {
+    animation: scroll-fade-scale-mobile 0.6s ease-out forwards;
+  }
+
+  .animate-blur-reveal {
+    animation: scroll-blur-reveal-mobile 0.6s ease-out forwards;
+  }
+
+  @keyframes scroll-float-up-mobile {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes scroll-scale-pop-mobile {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes scroll-slide-left-mobile {
+    from {
+      opacity: 0;
+      transform: translateX(-15px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes scroll-slide-right-mobile {
+    from {
+      opacity: 0;
+      transform: translateX(15px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes scroll-fade-scale-mobile {
+    from {
+      opacity: 0;
+      transform: scale(0.96) translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  }
+
+  @keyframes scroll-blur-reveal-mobile {
+    from {
+      opacity: 0;
+      filter: blur(4px);
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      filter: blur(0);
+      transform: translateY(0);
+    }
+  }
+}
+
+/* Reduced Motion - Scroll Reveals */
+@media (prefers-reduced-motion: reduce) {
+  .animate-float-up,
+  .animate-scale-pop,
+  .animate-slide-left,
+  .animate-slide-right,
+  .animate-fade-scale,
+  .animate-blur-reveal {
+    animation: scroll-reduced-motion 0.3s ease-out forwards;
+  }
+
+  @keyframes scroll-reduced-motion {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
+
+/* ============================================
+   ENHANCED GRADIENT BACKGROUNDS - SECTION COLORS
+   ============================================ */
+
+/* Different section gradients */
+.section-gradient-pink-purple {
+  background: linear-gradient(135deg, 
+    #FBCFE8 0%,     /* Pink */
+    #F3E8FF 100%    /* Purple */
+  );
+}
+
+.section-gradient-purple-blue {
+  background: linear-gradient(135deg, 
+    #E9D5FF 0%,     /* Purple */
+    #BFDBFE 100%    /* Blue */
+  );
+}
+
+.section-gradient-blue-cyan {
+  background: linear-gradient(135deg, 
+    #BFDBFE 0%,     /* Blue */
+    #A5F3FC 100%    /* Cyan */
+  );
+}
+
+.section-gradient-pink-violet {
+  background: linear-gradient(135deg, 
+    #FBCFE8 0%,     /* Pink */
+    #DDD6FE 100%    /* Violet */
+  );
+}
+
+.section-gradient-violet-blue {
+  background: linear-gradient(135deg, 
+    #DDD6FE 0%,     /* Violet */
+    #93C5FD 100%    /* Blue */
+  );
+}
+
+.section-gradient-blue-pink {
+  background: linear-gradient(135deg, 
+    #BFDBFE 0%,     /* Blue */
+    #FBCFE8 100%    /* Pink */
+  );
+}
+
+/* ============================================
+   ENHANCED CARD SYSTEM WITH BETTER HOVER
+   ============================================ */
+
+/* Premium card base with better hover */
+.premium-card-enhanced {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  border-radius: 18px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 2px solid transparent;
+}
+
+.premium-card-enhanced:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+}
+
+/* Color-specific hover enhancements */
+.premium-card-enhanced.border-pink:hover {
+  border-color: #EC4899;
+  box-shadow: 0 12px 32px rgba(236, 72, 153, 0.25), 0 0 20px rgba(236, 72, 153, 0.15);
+}
+
+.premium-card-enhanced.border-purple:hover {
+  border-color: #8B5CF6;
+  box-shadow: 0 12px 32px rgba(139, 92, 246, 0.25), 0 0 20px rgba(139, 92, 246, 0.15);
+}
+
+.premium-card-enhanced.border-blue:hover {
+  border-color: #3B82F6;
+  box-shadow: 0 12px 32px rgba(59, 130, 246, 0.25), 0 0 20px rgba(59, 130, 246, 0.15);
+}
+
+.premium-card-enhanced.border-cyan:hover {
+  border-color: #06B6D4;
+  box-shadow: 0 12px 32px rgba(6, 182, 212, 0.25), 0 0 20px rgba(6, 182, 212, 0.15);
+}
+
+.premium-card-enhanced.border-green:hover {
+  border-color: #10B981;
+  box-shadow: 0 12px 32px rgba(16, 185, 129, 0.25), 0 0 20px rgba(16, 185, 129, 0.15);
+}
+
+.premium-card-enhanced.border-orange:hover {
+  border-color: #F97316;
+  box-shadow: 0 12px 32px rgba(249, 115, 22, 0.25), 0 0 20px rgba(249, 115, 22, 0.15);
+}
+
+.premium-card-enhanced.border-gold:hover {
+  border-color: #F59E0B;
+  box-shadow: 0 12px 32px rgba(245, 158, 11, 0.25), 0 0 20px rgba(245, 158, 11, 0.15);
+}
+
+/* ============================================
+   BUTTON ENHANCEMENTS
+   ============================================ */
+
+/* Better button hover with scale */
+.premium-btn-enhanced {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.75rem;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.premium-btn-enhanced:hover {
+  transform: translateY(-2px) scale(1.01);
+}
+
+.premium-btn-enhanced:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* Mobile: Tap states instead of hover */
+@media (max-width: 767px) {
+  .premium-btn-enhanced:active {
+    transform: scale(0.96);
+  }
+}
+
+/* ============================================
+   IMAGE ZOOM ON HOVER
+   ============================================ */
+
+.image-zoom-container {
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.image-zoom {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.image-zoom-container:hover .image-zoom {
+  transform: scale(1.06);
+}
+
+/* Mobile: Disable zoom on tap */
+@media (max-width: 767px) {
+  .image-zoom-container:active .image-zoom {
+    transform: scale(1.02);
   }
 }

@@ -291,7 +291,7 @@ const Login = () => {
             </div>
             <h2>MILLANCE</h2>
             <h3>LUCKY DRAW</h3>
-            <p className="premium-tamil">ஆரம்பமான அனுமுகம் – அதிர்ஷ்ட பரிசுகள்</p>
+            <p className="premium-tamil">ஆனந்தமான ஆனைமுகம் வழங்கும் அதிர்ஷ்ட பரிசுகள்</p>
           </div>
 
           {/* 3 Floating Prize Cards Only */}
